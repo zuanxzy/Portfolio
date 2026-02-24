@@ -1,0 +1,75 @@
+/* ================================================
+   darkmode.css — Dark Mode Styles
+   Link this AFTER style.css in index.html
+   ================================================ */
+
+body.dark { background-color: #111; color: #ddd; }
+
+/* Header */
+body.dark .header-list { background-color: #1a1a1a; border-color: #333; }
+body.dark .ul-list li { color: #ddd; }
+body.dark .ul-list li:hover,
+body.dark .ul-list li.active { color: #4d6fff; }
+
+/* Dark toggle button */
+#dark-toggle {
+    background: none;
+    border: 2px solid #ccc;
+    color: #333;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    transition: 0.3s;
+    flex-shrink: 0;
+    margin-left: auto;
+}
+#dark-toggle:hover { border-color: #002fff; color: #002fff; }
+body.dark #dark-toggle { border-color: #555; color: #ddd; }
+body.dark #dark-toggle:hover { border-color: #4d6fff; color: #4d6fff; }
+
+/* Make toggle button visible in header */
+.div-list { justify-content: space-between; }
+
+/* Home */
+body.dark .home { background-color: #161616; }
+body.dark .info-home h1 { color: #f0f0f0; }
+body.dark .info-home h3 { color: #ddd; }
+body.dark .info-home h3 span { color: #4d6fff; }
+body.dark .info-p p,
+body.dark .info-p2 p { color: #bbb; }
+body.dark .btn-home1 { background-color: #4d6fff; }
+body.dark .btn-home2 { background-color: #222; color: #fff; border-color: #4d6fff; }
+body.dark .hhr hr { background: #333; }
+body.dark .follow ul li i { color: #ddd; }
+body.dark .home img { border-color: #333; }
+
+/* About */
+body.dark .about { background-color: #1e1e1e; }
+body.dark .title h1 { color: #f0f0f0; }
+body.dark .about-info p { color: #aaa; }
+body.dark .about h2 { color: #f0f0f0; }
+body.dark .c1 { background-color: #2a2a2a; }
+body.dark .c1 h3 { color: #f0f0f0; }
+body.dark .c1 p { color: #4d6fff; }
+
+/* Contact */
+body.dark .contact { background-color: #161616; }
+body.dark .contact h1 { color: #f0f0f0; }
+body.dark .contact-info > p,
+body.dark .contact-item { color: #bbb; }
+body.dark .contact-form input,
+body.dark .contact-form textarea { background-color: #222; color: #fff; border-color: #333; }
+body.dark .contact-form input::placeholder,
+body.dark .contact-form textarea::placeholder { color: #666; }
+body.dark .contact-form button { background-color: #4d6fff; }
+
+/* Footer */
+body.dark .footer { background-color: #0d0d0d; }
+body.dark .footer-links a,
+body.dark .footer-social i { color: #bbb; }
+body.dark .footer-copy { color: #666; }
