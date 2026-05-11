@@ -110,6 +110,7 @@ function typeFocus() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  document.body.classList.add('js-ready');
   applySavedTheme();
   revealOnScroll();
   updateActiveSection();
