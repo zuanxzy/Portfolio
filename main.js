@@ -1,5 +1,5 @@
 const darkToggle = document.getElementById('dark-toggle');
-const navLinks = document.querySelectorAll('.ul-list li a');
+const navLinks = document.querySelectorAll('.nav-links a');
 const sections = document.querySelectorAll('main section');
 const revealElements = document.querySelectorAll('.reveal');
 const typingText = document.getElementById('typing-text');
@@ -11,52 +11,23 @@ function setThemeIcon(isDark) {
     : '<i class="fa-solid fa-moon"></i>';
 }
 
-if (localStorage.getItem('theme') === 'dark') {
-  document.body.classList.add('dark');
-  setThemeIcon(true);
-}
-
-darkToggle.addEventListener('click', () => {
-  document.body.classList.toggle('dark');
-  const isDark = document.body.classList.contains('dark');
+function applySavedTheme() {
+  const isDark = localStorage.getItem('theme') === 'dark';
+  document.body.classList.toggle('dark', isDark);
   setThemeIcon(isDark);
-  localStorage.setItem('theme', isDark ? 'dark' : 'light');
-});
-
-function removeActive() {
-  navLinks.forEach((link) => link.parentElement.classList.remove('active'));
 }
-
-navLinks.forEach((link) => {
-  link.addEventListener('click', (event) => {
-    event.preventDefault();
-    const targetId = link.getAttribute('href').substring(1);
-    const targetSection = document.getElementById(targetId);
-
-    if (!targetSection) return;
-
-    window.scrollTo({
-      top: targetSection.offsetTop - 76,
-      behavior: 'smooth',
-    });
-
-    removeActive();
-    link.parentElement.classList.add('active');
-  });
-});
 
 function updateActiveSection() {
-  const scrollPos = window.scrollY + 120;
+  const scrollPosition = window.scrollY + 120;
 
   sections.forEach((section) => {
-    if (
-      scrollPos >= section.offsetTop &&
-      scrollPos < section.offsetTop + section.offsetHeight
-    ) {
-      removeActive();
-      const activeLink = document.querySelector(
-        `.ul-list li a[href="#${section.id}"]`
-      );
+    const isCurrent =
+      scrollPosition >= section.offsetTop &&
+      scrollPosition < section.offsetTop + section.offsetHeight;
+
+    if (isCurrent) {
+      navLinks.forEach((link) => link.parentElement.classList.remove('active'));
+      const activeLink = document.querySelector(`.nav-links a[href="#${section.id}"]`);
       if (activeLink) activeLink.parentElement.classList.add('active');
     }
   });
@@ -64,17 +35,36 @@ function updateActiveSection() {
 
 function revealOnScroll() {
   revealElements.forEach((element) => {
-    const elementTop = element.getBoundingClientRect().top;
-    if (elementTop < window.innerHeight - 120) {
+    if (element.getBoundingClientRect().top < window.innerHeight - 110) {
       element.classList.add('active-reveal');
     }
   });
 }
 
-backToTop.innerHTML = '<i class="fa-solid fa-chevron-up"></i>';
+darkToggle.addEventListener('click', () => {
+  const isDark = !document.body.classList.contains('dark');
+  document.body.classList.toggle('dark', isDark);
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  setThemeIcon(isDark);
+});
+
+navLinks.forEach((link) => {
+  link.addEventListener('click', (event) => {
+    event.preventDefault();
+    const target = document.querySelector(link.getAttribute('href'));
+    if (!target) return;
+
+    window.scrollTo({
+      top: target.offsetTop - 76,
+      behavior: 'smooth',
+    });
+  });
+});
+
 backToTop.id = 'back-to-top';
 backToTop.type = 'button';
 backToTop.setAttribute('aria-label', 'Back to top');
+backToTop.innerHTML = '<i class="fa-solid fa-chevron-up"></i>';
 document.body.appendChild(backToTop);
 
 backToTop.addEventListener('click', () => {
@@ -84,45 +74,44 @@ backToTop.addEventListener('click', () => {
 window.addEventListener('scroll', () => {
   updateActiveSection();
   revealOnScroll();
-  backToTop.style.display = window.scrollY > 500 ? 'grid' : 'none';
+  backToTop.style.display = window.scrollY > 520 ? 'grid' : 'none';
 });
 
-const words = [
-  'Frontend Developer',
-  'UI Builder',
-  'Web Enthusiast',
-  'React Learner',
+const focusWords = [
+  'frontend fundamentals',
+  'responsive layouts',
+  'clean JavaScript',
+  'real portfolio projects',
 ];
 
 let wordIndex = 0;
 let charIndex = 0;
-let isDeleting = false;
+let deleting = false;
 
-function type() {
-  const currentWord = words[wordIndex];
-  typingText.textContent = currentWord.substring(0, charIndex);
+function typeFocus() {
+  const current = focusWords[wordIndex];
+  typingText.textContent = current.slice(0, charIndex);
 
-  if (!isDeleting && charIndex < currentWord.length) {
+  if (!deleting && charIndex < current.length) {
     charIndex += 1;
-    setTimeout(type, 95);
+    setTimeout(typeFocus, 80);
     return;
   }
 
-  if (isDeleting && charIndex > 0) {
+  if (deleting && charIndex > 0) {
     charIndex -= 1;
-    setTimeout(type, 45);
+    setTimeout(typeFocus, 38);
     return;
   }
 
-  isDeleting = !isDeleting;
-  if (!isDeleting) {
-    wordIndex = (wordIndex + 1) % words.length;
-  }
-  setTimeout(type, 900);
+  deleting = !deleting;
+  if (!deleting) wordIndex = (wordIndex + 1) % focusWords.length;
+  setTimeout(typeFocus, 950);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  applySavedTheme();
   revealOnScroll();
   updateActiveSection();
-  type();
+  typeFocus();
 });
